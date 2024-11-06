@@ -40,4 +40,24 @@ export class TrackService {
     await this.findOne(id);
     return this.dbService.track.delete({ where: { id } });
   }
+
+  async cleanAlbumId(albumId: string) {
+    const trackList = await this.dbService.track.findMany({
+      where: { albumId },
+    });
+
+    for (const track of trackList) {
+      await this.update(track.id, { albumId: null });
+    }
+  }
+
+  async cleanArtistId(artistId: string) {
+    const trackList = await this.dbService.track.findMany({
+      where: { artistId },
+    });
+
+    for (const track of trackList) {
+      await this.update(track.id, { artistId: null });
+    }
+  }
 }
