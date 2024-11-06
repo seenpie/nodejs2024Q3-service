@@ -52,17 +52,13 @@ export class UserService {
       throw new ForbiddenException("Incorrect old password");
     }
 
-    const updatedUser = new User(
-      user.login,
-      updateUserDto.newPassword,
-      id,
-      user.createdAt,
-      user.version + 1,
-    );
-
     const result = await this.dbService.user.update({
       where: { id: id },
-      data: updatedUser,
+      data: {
+        password: updateUserDto.newPassword,
+        createdAt: user.createdAt,
+        version: user.version + 1,
+      },
     });
 
     return this._serialize(result);
