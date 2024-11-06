@@ -14,3 +14,12 @@ CREATE TABLE "Artist" (
     "name" TEXT NOT NULL,
     "grammy" BOOLEAN NOT NULL
 );
+
+-- CreateTable
+CREATE TABLE "Track" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "artistId" TEXT,
+    "albumId" TEXT,
+    "duration" INTEGER NOT NULL
+);
