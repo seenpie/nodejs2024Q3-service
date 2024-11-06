@@ -32,3 +32,10 @@ model Track {
   albumId  String? @default(uuid())
   duration Int
 }
+
+model Album {
+  id       String  @id @default(uuid())
+  name     String
+  year     Int
+  artistId String? @default(uuid())
+}

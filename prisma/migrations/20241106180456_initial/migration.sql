@@ -23,3 +23,11 @@ CREATE TABLE "Track" (
     "albumId" TEXT,
     "duration" INTEGER NOT NULL
 );
+
+-- CreateTable
+CREATE TABLE "Album" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "year" INTEGER NOT NULL,
+    "artistId" TEXT
+);
