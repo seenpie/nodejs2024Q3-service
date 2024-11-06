@@ -20,22 +20,32 @@ model User {
 }
 
 model Artist {
-  id     String  @id @default(uuid())
-  name   String
-  grammy Boolean
+  id        String     @id @default(uuid())
+  name      String
+  grammy    Boolean
+  favorites Favorite[] @relation("FavoriteArtists")
 }
 
 model Track {
-  id       String  @id @default(uuid())
-  name     String
-  artistId String? @default(uuid())
-  albumId  String? @default(uuid())
-  duration Int
+  id        String     @id @default(uuid())
+  name      String
+  artistId  String?    @default(uuid())
+  albumId   String?    @default(uuid())
+  duration  Int
+  favorites Favorite[] @relation("FavoriteTracks")
 }
 
 model Album {
-  id       String  @id @default(uuid())
-  name     String
-  year     Int
-  artistId String? @default(uuid())
+  id        String     @id @default(uuid())
+  name      String
+  year      Int
+  artistId  String?    @default(uuid())
+  favorites Favorite[] @relation("FavoriteAlbums")
+}
+
+model Favorite {
+  id      String   @id @default(uuid())
+  artists Artist[] @relation("FavoriteArtists")
+  albums  Album[]  @relation("FavoriteAlbums")
+  tracks  Track[]  @relation("FavoriteTracks")
 }
