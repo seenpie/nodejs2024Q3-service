@@ -3,10 +3,16 @@ import { CreateArtistDto } from "./dto/create-artist.dto";
 import { UpdateArtistDto } from "./dto/update-artist.dto";
 import { DbService } from "@/db/db.service";
 import { Artist } from "@/artist/entities/artist.entity";
+import { TrackService } from "@/track/track.service";
+import { AlbumService } from "@/album/album.service";
 
 @Injectable()
 export class ArtistService {
-  constructor(private readonly dbService: DbService) {}
+  constructor(
+    private readonly dbService: DbService,
+    private readonly trackService: TrackService,
+    private readonly albumService: AlbumService,
+  ) {}
 
   create({ name, grammy }: CreateArtistDto) {
     const artist = new Artist(name, grammy);
@@ -38,6 +44,8 @@ export class ArtistService {
 
   async remove(id: string) {
     await this.findOne(id);
+    await this.trackService.cleanArtistId(id);
+    await this.albumService.cleanArtistId(id);
     return this.dbService.artist.delete({ where: { id } });
   }
 }
