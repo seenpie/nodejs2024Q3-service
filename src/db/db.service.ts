@@ -12,6 +12,13 @@ export class DbService
 
   async onModuleInit() {
     await this.$connect();
+    const favorite = await this.favorite.findFirst();
+
+    if (!favorite) {
+      await this.favorite.create({
+        data: {},
+      });
+    }
   }
 
   async onModuleDestroy() {
