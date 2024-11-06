@@ -6,7 +6,6 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  UsePipes,
   ValidationPipe,
   HttpCode,
   Put,
@@ -20,7 +19,6 @@ export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body(new ValidationPipe()) createArtistDto: CreateArtistDto) {
     return this.artistService.create(createArtistDto);
   }
@@ -36,7 +34,6 @@ export class ArtistController {
   }
 
   @Put(":id")
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() updateArtistDto: UpdateArtistDto,

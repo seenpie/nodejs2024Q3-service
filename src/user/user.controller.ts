@@ -6,7 +6,6 @@ import {
   Param,
   Delete,
   ValidationPipe,
-  UsePipes,
   ParseUUIDPipe,
   HttpCode,
   Put,
@@ -20,7 +19,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
@@ -36,7 +34,6 @@ export class UserController {
   }
 
   @Put(":id")
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body(new ValidationPipe()) updateUserDto: UpdateUserDto,

@@ -7,7 +7,6 @@ import {
   Delete,
   ParseUUIDPipe,
   ValidationPipe,
-  UsePipes,
   HttpCode,
   Put,
 } from "@nestjs/common";
@@ -20,7 +19,6 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body(new ValidationPipe()) createAlbumDto: CreateAlbumDto) {
     return this.albumService.create(createAlbumDto);
   }
@@ -36,7 +34,6 @@ export class AlbumController {
   }
 
   @Put(":id")
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() updateAlbumDto: UpdateAlbumDto,

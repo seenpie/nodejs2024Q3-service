@@ -6,7 +6,6 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  UsePipes,
   ValidationPipe,
   Put,
   HttpCode,
@@ -20,7 +19,6 @@ export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body(new ValidationPipe()) createTrackDto: CreateTrackDto) {
     return this.trackService.create(createTrackDto);
   }
@@ -36,7 +34,6 @@ export class TrackController {
   }
 
   @Put(":id")
-  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() updateTrackDto: UpdateTrackDto,
