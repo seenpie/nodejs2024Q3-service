@@ -31,8 +31,9 @@ export class UserService {
     return this._serialize(result);
   }
 
-  findAll() {
-    return this.dbService.user.findMany();
+  async findAll() {
+    const users = await this.dbService.user.findMany();
+    return users.map((user) => this._serialize(user));
   }
 
   async findOne(id: string) {
