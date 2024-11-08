@@ -18,20 +18,36 @@ export class FavoriteController {
     return this.favoriteService.findFirst();
   }
 
-  @Post(":endpoint/:id")
-  add(
-    @Param("endpoint") endpoint: string,
-    @Param("id", ParseUUIDPipe) id: string,
-  ) {
-    return this.favoriteService.add(endpoint, id);
+  @Post("album/:id")
+  addAlbum(@Param("id", ParseUUIDPipe) id: string) {
+    return this.favoriteService.add("album", id);
   }
 
-  @Delete(":endpoint/:id")
+  @Post("artist/:id")
+  addArtist(@Param("id", ParseUUIDPipe) id: string) {
+    return this.favoriteService.add("artist", id);
+  }
+
+  @Post("track/:id")
+  addTrack(@Param("id", ParseUUIDPipe) id: string) {
+    return this.favoriteService.add("track", id);
+  }
+
+  @Delete("album/:id")
   @HttpCode(204)
-  remove(
-    @Param("endpoint") endpoint: string,
-    @Param("id", ParseUUIDPipe) id: string,
-  ) {
-    return this.favoriteService.remove(endpoint, id);
+  removeAlbum(@Param("id", ParseUUIDPipe) id: string) {
+    return this.favoriteService.remove("album", id);
+  }
+
+  @Delete("artist/:id")
+  @HttpCode(204)
+  removeArtist(@Param("id", ParseUUIDPipe) id: string) {
+    return this.favoriteService.remove("artist", id);
+  }
+
+  @Delete("track/:id")
+  @HttpCode(204)
+  removeTrack(@Param("id", ParseUUIDPipe) id: string) {
+    return this.favoriteService.remove("track", id);
   }
 }
