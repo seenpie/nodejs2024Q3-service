@@ -31,7 +31,7 @@ npx prisma migrate deploy
 ### 5. Running application
 
 ```shell
-npm start
+npm run start
 ```
 
 ## How to use
