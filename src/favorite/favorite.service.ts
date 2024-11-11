@@ -4,26 +4,16 @@ import {
   UnprocessableEntityException,
 } from "@nestjs/common";
 import { DbService } from "@/db/db.service";
-import { ArtistService } from "@/artist/artist.service";
-import { TrackService } from "@/track/track.service";
-import { AlbumService } from "@/album/album.service";
 
 @Injectable()
 export class FavoriteService {
-  constructor(
-    private readonly dbService: DbService,
-    private readonly artistService: ArtistService,
-    private readonly trackService: TrackService,
-    private readonly albumService: AlbumService,
-  ) {}
+  constructor(private readonly dbService: DbService) {}
 
   private async _addTrack(trackId: string) {
     try {
-      await this.trackService.findOne(trackId);
-
       const { id } = await this.findFirst();
 
-      return this.dbService.favorite.update({
+      return await this.dbService.favorite.update({
         where: { id },
         data: { tracks: { connect: { id: trackId } } },
         include: { tracks: true },
@@ -39,7 +29,7 @@ export class FavoriteService {
         where: { tracks: { some: { id: trackId } } },
       });
 
-      return this.dbService.favorite.update({
+      return await this.dbService.favorite.update({
         where: { id },
         data: { tracks: { disconnect: { id: trackId } } },
       });
@@ -50,11 +40,9 @@ export class FavoriteService {
 
   private async _addAlbum(albumId: string) {
     try {
-      await this.albumService.findOne(albumId);
-
       const { id } = await this.findFirst();
 
-      return this.dbService.favorite.update({
+      return await this.dbService.favorite.update({
         where: { id },
         data: { albums: { connect: { id: albumId } } },
         include: { albums: true },
@@ -81,11 +69,9 @@ export class FavoriteService {
 
   private async _addArtist(artistId: string) {
     try {
-      await this.artistService.findOne(artistId);
-
       const { id } = await this.findFirst();
 
-      return this.dbService.favorite.update({
+      return await this.dbService.favorite.update({
         where: { id },
         data: { artists: { connect: { id: artistId } } },
         include: { artists: true },
