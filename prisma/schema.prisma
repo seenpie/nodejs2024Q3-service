@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -24,6 +24,8 @@ model Artist {
   name      String
   grammy    Boolean
   favorites Favorite[] @relation("FavoriteArtists")
+  Track     Track[]
+  Album     Album[]
 }
 
 model Track {
@@ -32,6 +34,8 @@ model Track {
   artistId  String?    @default(uuid())
   albumId   String?    @default(uuid())
   duration  Int
+  artist    Artist?    @relation(references: [id], fields: [artistId])
+  album     Album?     @relation(references: [id], fields: [albumId])
   favorites Favorite[] @relation("FavoriteTracks")
 }
 
@@ -40,7 +44,9 @@ model Album {
   name      String
   year      Int
   artistId  String?    @default(uuid())
+  artist    Artist?    @relation(references: [id], fields: [artistId])
   favorites Favorite[] @relation("FavoriteAlbums")
+  Track     Track[]
 }
 
 model Favorite {
