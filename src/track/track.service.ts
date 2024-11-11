@@ -3,14 +3,20 @@ import { CreateTrackDto } from "./dto/create-track.dto";
 import { UpdateTrackDto } from "./dto/update-track.dto";
 import { DbService } from "@/db/db.service";
 import { Track } from "@/track/entities/track.entity";
+import { handleError } from "@/utils/handleError";
 
 @Injectable()
 export class TrackService {
   constructor(private readonly dbService: DbService) {}
 
-  create({ name, duration, artistId, albumId }: CreateTrackDto) {
+  async create({ name, duration, artistId, albumId }: CreateTrackDto) {
     const track = new Track(name, artistId, albumId, duration);
-    return this.dbService.track.create({ data: track });
+
+    try {
+      return await this.dbService.track.create({ data: track });
+    } catch (error) {
+      return handleError(error);
+    }
   }
 
   findAll() {

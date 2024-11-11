@@ -4,6 +4,7 @@ import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { DbService } from "@/db/db.service";
 import { Album } from "@/album/entities/album.entity";
 import { TrackService } from "@/track/track.service";
+import { handleError } from "@/utils/handleError";
 
 @Injectable()
 export class AlbumService {
@@ -12,9 +13,14 @@ export class AlbumService {
     private readonly trackService: TrackService,
   ) {}
 
-  create({ name, year, artistId }: CreateAlbumDto) {
+  async create({ name, year, artistId }: CreateAlbumDto) {
     const album = new Album(name, year, artistId);
-    return this.dbService.album.create({ data: album });
+
+    try {
+      return await this.dbService.album.create({ data: album });
+    } catch (error) {
+      return handleError(error);
+    }
   }
 
   findAll() {
