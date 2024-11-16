@@ -1,0 +1,54 @@
+networks:
+  home-library-network:
+    driver: bridge
+
+volumes:
+  db-data:
+
+services:
+  home-library-service:
+    container_name: home-library-service
+    build:
+      context: .
+    networks:
+      - home-library-network
+    restart: always
+    environment:
+      PORT: ${PORT}
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./src:/usr/app/src
+      - ./node_modules:/usr/app/node_modules
+    depends_on:
+      home-library-db:
+         condition: service_healthy
+
+  home-library-db:
+     container_name: home-library-db
+     build:
+       dockerfile: db.Dockerfile
+     networks:
+       - home-library-network
+     restart: always
+     volumes:
+       - db-data:/var/lib/postgresql/data
+     environment:
+       - POSTGRES_DB=${POSTGRES_DB}
+       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+       - PGPORT=${POSTGRES_PORT}
+     ports:
+       - ${POSTGRES_PORT}:${POSTGRES_PORT}
+     command: >
+       postgres
+       -c logging_collector=on
+       -c log_directory=./log
+       -c log_filename=postgresql.log
+       -c log_statement=all
+     healthcheck:
+       test: [ "CMD", "pg_isready" ]
+       interval: 10s
+       timeout: 5s
+       retries: 5
+
