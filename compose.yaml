@@ -10,6 +10,7 @@ services:
     container_name: home-library-service
     build:
       context: .
+    image: home-library-service:latest
     networks:
       - home-library-network
     restart: always
@@ -29,6 +30,7 @@ services:
      container_name: home-library-db
      build:
        dockerfile: db.Dockerfile
+     image: home-library-db:latest
      networks:
        - home-library-network
      restart: always
