@@ -4,16 +4,18 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker desktop [Download Docker desktop](https://www.docker.com/products/docker-desktop/)
 
 ## Start
 
 ### 1. Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/seenpie/nodejs2024Q3-service.git -b part-2
 ```
 
 ### 2. Create .env file
+
 > (based on .env.example): ./.env
 
 ### 3. Installing NPM modules
@@ -22,22 +24,26 @@ git clone {repository URL}
 npm install
 ```
 
-### 4. Deploy prisma
+### 4. Running application
+
+> Application will deploy in Docker with local node_modules and src folder
 
 ```shell
-npx prisma migrate deploy
-```
-
-### 5. Running application
-
-```shell
-npm start
+docker compose up
 ```
 
 ## How to use
 
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/api/.
+
+## Docker scan
+
+You can run script for vulnerabilities scanning
+
+```shell
+npm run docker:scan
+```
 
 ## Testing
 
