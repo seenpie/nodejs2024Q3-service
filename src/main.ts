@@ -28,7 +28,7 @@ async function bootstrap() {
 
   fs.writeFileSync(docFilePath, yamlDocument);
 
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("doc", app, document);
 
   await app.listen(process.env.PORT ?? DEFAULT_PORT);
 }
