@@ -22,7 +22,7 @@ import {
   ApiOperationGetById,
   ApiOperationPost,
   ApiOperationPutById,
-} from "@/utils/swagger/ApiOperationDecs";
+} from "@/decorators/api-operation.decorator";
 
 @Controller("user")
 export class UserController {

@@ -15,17 +15,73 @@ type Entity =
 type EntityName = "user" | "artist" | "album" | "track" | "favorite";
 type Target = Exclude<EntityName, "favorite">;
 
-function Api400404Responses() {
+function ApiResponsesPostFavorite(target: Target) {
   return applyDecorators(
-    ApiResponse({
-      status: HttpStatus.BAD_REQUEST,
-      description: "Id is invalid",
+    ApiOperation({
+      summary: `add ${target} by id to favorite`,
     }),
+    ApiResponsesPost(),
     ApiResponse({
-      status: HttpStatus.NOT_FOUND,
-      description: "Id doesn't exist",
+      status: HttpStatus.UNPROCESSABLE_ENTITY,
+      description: `id doesn't exist`,
     }),
   );
+}
+
+function ApiResponsesDeleteFavorite(target: Target) {
+  return applyDecorators(
+    ApiOperation({ summary: `delete ${target} by id from favorite` }),
+    ApiResponsesDelete(),
+  );
+}
+
+function Api400404Responses() {
+  return applyDecorators(
+    Api400Response("Id is invalid"),
+    Api404Response("Id doesn't exist"),
+  );
+}
+
+function Api200Response(description: string) {
+  return ApiResponse({
+    status: HttpStatus.OK,
+    description,
+  });
+}
+
+function Api201Response(description: string) {
+  return ApiResponse({
+    status: HttpStatus.OK,
+    description,
+  });
+}
+
+function Api400Response(description: string) {
+  return ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description,
+  });
+}
+
+function Api401Response(description: string) {
+  return ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description,
+  });
+}
+
+function Api403Response(description: string) {
+  return ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description,
+  });
+}
+
+function Api404Response(description: string) {
+  return ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description,
+  });
 }
 
 function ApiResponsesPost() {
@@ -121,22 +177,29 @@ export function ApiOperationPost(entityName: EntityName, target?: Target) {
   );
 }
 
-function ApiResponsesPostFavorite(target: Target) {
+export function ApiOperationSignup() {
   return applyDecorators(
-    ApiOperation({
-      summary: `add ${target} by id to favorite`,
-    }),
+    ApiOperation({ summary: "signup a new user" }),
     ApiResponsesPost(),
-    ApiResponse({
-      status: HttpStatus.UNPROCESSABLE_ENTITY,
-      description: `id doesn't exist`,
-    }),
   );
 }
 
-function ApiResponsesDeleteFavorite(target: Target) {
+export function ApiOperationLogin() {
   return applyDecorators(
-    ApiOperation({ summary: `delete ${target} by id from favorite` }),
-    ApiResponsesDelete(),
+    ApiOperation({ summary: "login" }),
+    Api200Response("Data is valid"),
+    Api400Response("Data is invalid"),
+    Api403Response(
+      "No user with such login, password doesn't match actual one",
+    ),
+  );
+}
+
+export function ApiOperationRefresh() {
+  return applyDecorators(
+    ApiOperation({ summary: "refresh tokens" }),
+    Api201Response("Data is valid"),
+    Api401Response("No refreshToken in body"),
+    Api403Response("Refresh token is invalid or expired"),
   );
 }

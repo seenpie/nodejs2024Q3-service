@@ -20,7 +20,7 @@ import {
   ApiOperationGetById,
   ApiOperationPost,
   ApiOperationPutById,
-} from "@/utils/swagger/ApiOperationDecs";
+} from "@/decorators/api-operation.decorator";
 import { Album } from "@/album/entities/album.entity";
 
 @Controller("album")

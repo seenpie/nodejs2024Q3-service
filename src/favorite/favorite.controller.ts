@@ -13,7 +13,7 @@ import {
   ApiOperationDeleteById,
   ApiOperationGetById,
   ApiOperationPost,
-} from "@/utils/swagger/ApiOperationDecs";
+} from "@/decorators/api-operation.decorator";
 import { Favorite } from "@/favorite/entities/favorite.entity";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
