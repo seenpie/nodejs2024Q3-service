@@ -1,5 +1,5 @@
 import { IArtist } from "@/artist/entities/artist.interface";
-import { generateId } from "@/utils/generateId";
+import { generateId } from "@/utils/generate-Id";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class Artist implements IArtist {

@@ -4,7 +4,7 @@ import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { DbService } from "@/db/db.service";
 import { Album } from "@/album/entities/album.entity";
 import { TrackService } from "@/track/track.service";
-import { handleError } from "@/utils/handleError";
+import { handleError } from "@/utils/handle-error";
 
 @Injectable()
 export class AlbumService {

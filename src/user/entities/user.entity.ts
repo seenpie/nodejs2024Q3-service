@@ -1,5 +1,5 @@
 import { IUser } from "@/user/entities/user.interface";
-import { generateId } from "@/utils/generateId";
+import { generateId } from "@/utils/generate-Id";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class User implements IUser {

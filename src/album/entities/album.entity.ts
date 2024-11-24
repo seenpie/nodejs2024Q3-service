@@ -1,5 +1,5 @@
 import { IAlbum } from "@/album/entities/album.interface";
-import { generateId } from "@/utils/generateId";
+import { generateId } from "@/utils/generate-Id";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class Album implements IAlbum {

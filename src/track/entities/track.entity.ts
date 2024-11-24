@@ -1,4 +1,4 @@
-import { generateId } from "@/utils/generateId";
+import { generateId } from "@/utils/generate-Id";
 import { ITrack } from "@/track/entities/track.interface";
 import { ApiProperty } from "@nestjs/swagger";
 

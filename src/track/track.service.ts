@@ -3,7 +3,7 @@ import { CreateTrackDto } from "./dto/create-track.dto";
 import { UpdateTrackDto } from "./dto/update-track.dto";
 import { DbService } from "@/db/db.service";
 import { Track } from "@/track/entities/track.entity";
-import { handleError } from "@/utils/handleError";
+import { handleError } from "@/utils/handle-error";
 
 @Injectable()
 export class TrackService {
