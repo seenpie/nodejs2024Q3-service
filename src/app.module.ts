@@ -9,9 +9,13 @@ import { TrackModule } from "./track/track.module";
 import { AlbumModule } from "./album/album.module";
 import { FavoriteModule } from "./favorite/favorite.module";
 import { AuthModule } from "./auth/auth.module";
-import { APP_GUARD } from "@nestjs/core";
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { AuthGuard } from "@/auth/guards/auth.guard";
 import { TokenModule } from "@/token/token.module";
+import { LoggingModule } from "./logging/logging.module";
+import { LoggingInterceptor } from "@/logging/logging.interceptor";
+import { ExceptionFilterModule } from "./exception-filter/exception-filter.module";
+import { ExceptionFilterService } from "@/exception-filter/exception-filter.service";
 
 @Module({
   imports: [
@@ -24,8 +28,15 @@ import { TokenModule } from "@/token/token.module";
     FavoriteModule,
     TokenModule,
     AuthModule,
+    LoggingModule,
+    ExceptionFilterModule,
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+    { provide: APP_FILTER, useClass: ExceptionFilterService },
+  ],
 })
 export class AppModule {}
