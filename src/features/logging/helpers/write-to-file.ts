@@ -7,7 +7,6 @@ export function writeToFile(
   maxFileSize: number,
 ) {
   checkFile(filePath, maxFileSize);
-  console.log(filePath);
   fs.appendFileSync(filePath, data);
 }
 

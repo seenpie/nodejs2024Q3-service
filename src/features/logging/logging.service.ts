@@ -8,17 +8,18 @@ import { createLogMessage } from "@/features/logging/helpers/create-log-message"
 
 @Injectable()
 export class LoggingService implements LoggerService {
-  private logFile = path.join(__dirname, "..", "logs", "app.log");
-  private errorLogFile = path.join(
-    __dirname,
-    "..",
-    "logs",
-    "error",
-    "app-error.log",
-  );
+  private readonly logFile: string;
+  private readonly errorLogFile: string;
   private readonly activeLogLevels: LogLevel[];
 
   constructor(private readonly configService: ConfigService) {
+    const logPath = this.configService.get(
+      EnvAliases.LOG_PATH,
+      path.join(__dirname, "..", "logs"),
+    );
+    this.logFile = path.join(logPath, "app.log");
+    this.errorLogFile = path.join(logPath, "error", "app-error.log");
+
     const logLevel = this.configService.get(EnvAliases.LOG_LEVEL, "warn");
     this.activeLogLevels = getLogLevelList(logLevel);
   }
