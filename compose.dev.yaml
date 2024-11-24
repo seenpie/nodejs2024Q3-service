@@ -1,0 +1,7 @@
+services:
+  home-library-service:
+    build:
+      target: DEV
+    volumes:
+      - ./src:/usr/app/src
+      - app-logs:/usr/app/logs

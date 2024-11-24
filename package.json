@@ -13,6 +13,10 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "start:prisma:dev": "npx prisma migrate dev & npm run start:dev",
+    "start:prisma:prod": "npx prisma migrate deploy & npm run start:prod",
+    "start:docker:dev": "docker compose -f compose.yaml -f compose.dev.yaml up -d",
+    "start:docker:prod": "docker compose -f compose.yaml -f compose.prod.yaml up -d",
     "lint": "eslint \"{src,apps,libs}/**/*.ts\" --fix",
     "test": "jest --testMatch \"<rootDir>/*.spec.ts\" --noStackTrace --runInBand",
     "test:auth": "cross-env TEST_MODE=auth jest --testPathIgnorePatterns refresh.e2e.spec.ts --noStackTrace --runInBand",
@@ -20,7 +24,6 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "start:docker": "npx prisma generate & npx prisma migrate deploy & npm run start:dev",
     "docker:scan": "docker scout cves home-library-db:latest & docker scout cves home-library-service:latest"
   },
   "dependencies": {

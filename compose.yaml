@@ -4,6 +4,7 @@ networks:
 
 volumes:
   db-data:
+  app-logs:
 
 services:
   home-library-service:
@@ -16,41 +17,45 @@ services:
     restart: always
     environment:
       PORT: ${PORT}
+      CRYPT_SALT: ${CRYPT_SALT}
       DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_SECRET_REFRESH_KEY: ${JWT_SECRET_REFRESH_KEY}
+      TOKEN_EXPIRE_TIME: ${TOKEN_EXPIRE_TIME}
+      TOKEN_REFRESH_EXPIRE_TIME: ${TOKEN_REFRESH_EXPIRE_TIME}
+      LOG_MAX_SIZE: ${LOG_MAX_SIZE}
+      LOG_LEVEL: ${LOG_LEVEL}
+      LOG_PATH: ${LOG_PATH}
     ports:
       - ${PORT}:${PORT}
-    volumes:
-      - ./src:/usr/app/src
-      - ./node_modules:/usr/app/node_modules
     depends_on:
       home-library-db:
-         condition: service_healthy
+        condition: service_healthy
 
   home-library-db:
-     container_name: home-library-db
-     build:
-       dockerfile: db.Dockerfile
-     image: home-library-db:latest
-     networks:
-       - home-library-network
-     restart: always
-     volumes:
-       - db-data:/var/lib/postgresql/data
-     environment:
-       - POSTGRES_DB=${POSTGRES_DB}
-       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-       - PGPORT=${POSTGRES_PORT}
-     ports:
-       - ${POSTGRES_PORT}:${POSTGRES_PORT}
-     command: >
-       postgres
-       -c logging_collector=on
-       -c log_directory=./log
-       -c log_filename=postgresql.log
-       -c log_statement=all
-     healthcheck:
-       test: [ "CMD", "pg_isready" ]
-       interval: 10s
-       timeout: 5s
-       retries: 5
-
+    container_name: home-library-db
+    build:
+      dockerfile: db.Dockerfile
+    image: home-library-db:latest
+    networks:
+      - home-library-network
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGPORT=${POSTGRES_PORT}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    command: >
+      postgres
+      -c logging_collector=on
+      -c log_directory=./log
+      -c log_filename=postgresql.log
+      -c log_statement=all
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
