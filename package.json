@@ -14,7 +14,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "start:prisma:dev": "npx prisma migrate dev & npm run start:dev",
-    "start:prisma:prod": "npx prisma migrate deploy & npm run start:prod",
+    "start:prisma:prod": "npx prisma migrate deploy && npm run start:prod",
     "start:docker:dev": "docker compose -f compose.yaml -f compose.dev.yaml up -d",
     "start:docker:prod": "docker compose -f compose.yaml -f compose.prod.yaml up -d",
     "lint": "eslint \"{src,apps,libs}/**/*.ts\" --fix",
