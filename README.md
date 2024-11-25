@@ -22,7 +22,13 @@ git clone https://github.com/seenpie/nodejs2024Q3-service.git -b part-3
 (based on .env.example): ./.env
 ```
 
-### 3. Running application
+### 3. Install dependencies
+
+```
+npm install
+```
+
+### 4. Running application
 
 > Start prod
 ```shell
