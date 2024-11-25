@@ -1,0 +1,6 @@
+services:
+  home-library-service:
+    build:
+      target: PROD
+    volumes:
+      - app-logs:/usr/app/logs
